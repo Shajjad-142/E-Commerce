@@ -1,0 +1,16 @@
+Future<void> sendOtpToEmail(String email, BuildContext context) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      setEmailForReset(email);
+      Get.snackbar("Success", "OTP sent to $email",
+          snackPosition: SnackPosition.BOTTOM);
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar("Error", e.message ?? "Failed to send OTP",
+          snackPosition: SnackPosition.BOTTOM);
+      rethrow;
+    }
+  }
+
+  void setEmailForReset(String email) {
+    _emailForReset.value = email;
+  }
